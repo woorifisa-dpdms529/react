@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const data = [
+                {
+                    img: "https://picsum.photos/id/30/200/200",
+                    item_name: "컵",
+                    price: "5,000원"
+                },
+                {
+                    img: "https://picsum.photos/id/21/200/200",
+                    item_name: "구두",
+                    price: "10,000원"
+                },
+                {
+                    img: "https://picsum.photos/id/23/200/200",
+                    item_name: "포크",
+                    price: "2,000원"
+                },
+                {
+                    img: "https://picsum.photos/id/24/200/200",
+                    item_name: "책",
+                    price: "7,000원"
+                },
+            ];
+
+        const Product = (props) => {
+            return (
+                <div className='mx-2'>
+                    <img src={props.data.img} alt={`${props.data.item_name}입니다.`}/>
+                    <h2>{props.data.item_name}</h2>
+                    <p>{props.data.price}</p>
+                </div>
+            )
+        };
+
+        const Products = () => {
+            let product_list = [];
+            for (let i = 0; i < data.length; i++) {
+                product_list.push(<Product data={data[i]} key={i}/>);
+            }
+
+            return (
+                <div className="text-center">
+                    <h1>상품 목록</h1>
+                    <div className='flex justify-center'>
+                        {product_list}
+                    </div>
+                </div>
+            )
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Products/>);
+        
+    </script>
+</body>
+</html>
