@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <button class="btn increase">increase</button>
+    <script>
+        // console.log(React, ReactDOM);
+        // React - React의 최상위 API, React가 라이브러리의 진입점
+        // 이전 상태와 마지막 가장 최근 스냅샷과의 차이를 비교해주고, 이 변경사항을 ReactDOM에게 전달
+        const component = React.createElement('div', null, 'div입니다.');
+        // console.log(component);
+
+        // ReactDOM은 React로부터 전달받은 변경사항을 실제 브라우저(Real DOM)에 적용
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+
+        // 카운터 컴포넌트(커스텀 컴포넌트는 대문자로 시작, )
+        const Component = props => {
+            return React.createElement('p', null, `${props.count}`);
+        };
+
+        let i = 0; //카운트 변수
+
+        root.render(React.createElement(Component, {count:i}, null));
+
+        // 이벤트 발생에 따라 다시 렌더링
+        document.querySelector('button').addEventListener('click', () => {
+            root.render(React.createElement(Component, {count:++i}, null));
+        })
+
+    </script>
+</body>
+</html>
