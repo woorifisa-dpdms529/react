@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const {useState} = React;
+
+        const Temperature = () => {
+            const [temperature, setTemperature] = useState({celsius:'', fahrenheit:''});
+
+            return(
+                <div>
+                    <Calculator title="섭씨" temperature={temperature.celsius} setTemperature={setTemperature}/>
+                    <Calculator title="화씨" temperature={temperature.fahrenheit} setTemperature={setTemperature}/>
+                    <BoilingVerdict celsius={temperature.celsius}/>
+                </div>
+            )     
+        }
+
+        const Calculator = (props) => {
+            const temperatureHandler = (e) => {
+                let tempC, tempF;
+
+                if(props.title==="섭씨") {
+                    tempC = e.target.value;
+                    tempF = tempC * 9/5 + 32;
+                }else if(props.title==="화씨") {
+                    tempF = e.target.value;
+                    tempC = (tempF - 32) * 5/9;
+                }
+
+                props.setTemperature({celsius:tempC, fahrenheit:tempF});
+            }
+            return (
+            <fieldset>
+                <legend>{props.title} 온도를 입력하세요 : </legend>
+                <input type="text" value={props.temperature} onChange={temperatureHandler}/>
+            </fieldset>
+            );
+      };
+
+      // 입력한 값이 끓는점 온도인지의 여부에 따라 결과값을 분기하는 컴포넌트
+      const BoilingVerdict = (props) => {
+            if (props.celsius >= 100) { // celsius - 섭씨 온도
+                return <p>물이 끓는점 입니다.</p>;
+            }
+            return <p>끓는점이 아직 아닙니다.</p>;
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<Temperature />);
+    </script>
+  </body>
+</html>
