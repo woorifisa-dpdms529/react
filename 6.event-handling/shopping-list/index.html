@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const {useState} = React;
+
+        const Item = (props) => {
+            const clickHandler = () => {
+                props.remove(props.id);
+            }
+
+            return(
+                <li>
+                    <span>{props.name}</span>
+                    <button onClick={clickHandler}>X</button>
+                </li>
+            )
+        }
+
+        const ShoppingList = () => {
+            const [items, setItems] = useState([{name:"사과", id:0}, {name:"감자", id:1}, {name:"고구마", id:2}]);
+
+            const submit = (e) => {
+                e.preventDefault();
+                const input = e.target.nameInput;
+                const name = input.value;
+                
+                let id = items.length===0 ? 0 : items[items.length-1].id + 1;
+                let itemList = [...items, {name:name, id:id}];
+                setItems(itemList);
+                
+                e.target.reset();
+            }
+
+            const remove = (id) => {
+                let itemList = items;
+                const removedItemList = itemList.filter((item)=>item.id !== id)
+                setItems(removedItemList);
+            }
+
+            return(
+                <div>
+                    <h1>Shopping List</h1>    
+
+                    <div>
+                        <h2>Items To Buy</h2> 
+                        <form onSubmit={submit}>
+                            <input name="nameInput" type="text" placeholder="Add a new item"/>
+                            <button>Add</button>
+                        </form>   
+                        
+                        <ul>
+                            {items.map((item) => {
+                            return <Item name={item.name} key={item.id} id={item.id} remove={remove}/>
+                           })} 
+                        </ul>
+                    </div>
+                </div>
+            )
+        }
+        
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ShoppingList/>);
+    </script>
+</body>
+</html>
